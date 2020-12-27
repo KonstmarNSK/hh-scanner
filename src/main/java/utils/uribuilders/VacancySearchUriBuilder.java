@@ -1,29 +1,16 @@
-package utils.hhapi;
+package utils.uribuilders;
 
 import org.javatuples.Pair;
 import utils.Constants;
 
 import java.net.URI;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-class UriBuilders {
-
-    public static VacancySearchUriBuilder findJob() {
-        return new VacancySearchUriBuilder();
-    }
-}
-
-interface UriBuilder {
-    public URI build();
-}
-
-class VacancySearchUriBuilder implements UriBuilder {
+public class VacancySearchUriBuilder implements UriBuilder {
 
     private List<Pair<String, String>> queryParams = new ArrayList<>();
     private StringBuilder rawUri;
