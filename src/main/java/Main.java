@@ -14,7 +14,6 @@ public class Main  {
         String rep = api.searchJobsByTextContent("java").get().body();
 
         System.out.println(rep);
-
         threadPool.shutdownNow();
     }
 }

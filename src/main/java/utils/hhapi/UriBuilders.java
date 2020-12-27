@@ -4,6 +4,9 @@ import org.javatuples.Pair;
 import utils.Constants;
 
 import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,16 +14,16 @@ import java.util.stream.Collectors;
 
 class UriBuilders {
 
-    public static VacancySearchUriBuilder findJob(){
+    public static VacancySearchUriBuilder findJob() {
         return new VacancySearchUriBuilder();
     }
 }
 
-interface UriBuilder{
+interface UriBuilder {
     public URI build();
 }
 
-class VacancySearchUriBuilder implements UriBuilder{
+class VacancySearchUriBuilder implements UriBuilder {
 
     private List<Pair<String, String>> queryParams = new ArrayList<>();
     private StringBuilder rawUri;
@@ -31,7 +34,7 @@ class VacancySearchUriBuilder implements UriBuilder{
         rawUri.append("vacancies?");
     }
 
-    public VacancySearchUriBuilder setText(String query){
+    public VacancySearchUriBuilder setText(String query) {
         queryParams.add(Pair.with("text", query));
         return this;
     }
@@ -39,9 +42,17 @@ class VacancySearchUriBuilder implements UriBuilder{
 
     @Override
     public URI build() {
-        rawUri.append(queryParams.stream()
-                .map(pair -> pair.getValue0() + "=" + pair.getValue1())
-                .collect(Collectors.joining("&")));
+
+        String query = queryParams.stream()
+                .map(pair -> {
+                    String key = URLEncoder.encode(pair.getValue0(), StandardCharsets.UTF_8);
+                    String value = URLEncoder.encode(pair.getValue1(), StandardCharsets.UTF_8);
+                    return key + "=" + value;
+                })
+                .collect(Collectors.joining("&"));
+
+
+        rawUri.append(query);
 
         return URI.create(rawUri.toString());
     }
