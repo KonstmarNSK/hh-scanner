@@ -1,5 +1,6 @@
 package utils.dataobjects.vacancy;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -9,6 +10,8 @@ public class Vacancy {
     public final String name;
     public final Snippet snippet;
     public final Salary salary;
+    @JsonAlias("address")
+    public final Location location;
 
     // for jackson
     public Vacancy() {
@@ -16,6 +19,7 @@ public class Vacancy {
         name = "no-title";
         snippet = null;
         salary = null;
+        location = null;
     }
 
 

@@ -34,7 +34,7 @@ public class VacancySearchRequestBuilder {
         rawUri.append("vacancies?");
     }
 
-    public VacancySearchRequestBuilder setText(String query) {
+    public VacancySearchRequestBuilder findTextOccurrences(String query) {
         queryParams.add(Pair.with("text", query));
         return this;
     }

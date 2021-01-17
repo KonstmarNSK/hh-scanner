@@ -1,5 +1,8 @@
 package utils.dataobjects.vacancy;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Snippet {
     public final String requirement;
     public final String responsibility;

@@ -1,5 +1,8 @@
 package utils.dataobjects.vacancy;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MetroStation {
     public final float station_id;
     public final String station_name;

@@ -16,7 +16,7 @@ public class Main {
 
 
         Client client = new Client(threadPool);
-        HHRequest<Stream<Vacancy>> req = RequestBuilders.findJob().setText("java").build();
+        HHRequest<Stream<Vacancy>> req = RequestBuilders.findJob().findTextOccurrences("java").build();
         List<Vacancy> list = req.doRequest(client).get().collect(Collectors.toList());
 
         System.out.println(list);

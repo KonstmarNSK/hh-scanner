@@ -1,5 +1,8 @@
 package utils.dataobjects.vacancy;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Salary {
     public final Long to;
     public final Long from;
