@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.javatuples.Pair;
 import utils.Constants;
 import utils.HHRequest;
+import utils.dataobjects.hhsearchparams.Experience;
 import utils.dataobjects.vacancy.Vacancy;
 import utils.json.JsonListIter;
 
@@ -36,6 +37,11 @@ public class VacancySearchRequestBuilder {
 
     public VacancySearchRequestBuilder findTextOccurrences(String query) {
         queryParams.add(Pair.with("text", query));
+        return this;
+    }
+
+    public VacancySearchRequestBuilder withExperience(Experience experience){
+        queryParams.add(Pair.with("experience", experience.id));
         return this;
     }
 
