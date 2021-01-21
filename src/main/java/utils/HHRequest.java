@@ -16,6 +16,6 @@ public class HHRequest<TResult> {
     }
 
     public CompletableFuture<TResult> doRequest(Client client) {
-        return client.makeRequest(uri).thenApplyAsync(responseHandler);
+        return client.makeRequest(uri).thenApply(responseHandler);
     }
 }
