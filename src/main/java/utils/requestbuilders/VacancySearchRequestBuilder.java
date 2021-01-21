@@ -7,8 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.javatuples.Pair;
 import utils.Constants;
 import utils.HHRequest;
+import utils.dataobjects.hhsearchparams.Experience;
+import utils.dataobjects.hhsearchparams.area.Area;
 import utils.dataobjects.vacancy.Vacancy;
 import utils.json.JsonListIter;
+import utils.json.JsonObjectResponseParser;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -34,8 +37,18 @@ public class VacancySearchRequestBuilder {
         rawUri.append("vacancies?");
     }
 
-    public VacancySearchRequestBuilder setText(String query) {
+    public VacancySearchRequestBuilder findTextOccurrences(String query) {
         queryParams.add(Pair.with("text", query));
+        return this;
+    }
+
+    public VacancySearchRequestBuilder withExperience(Experience experience){
+        queryParams.add(Pair.with("experience", experience.id));
+        return this;
+    }
+
+    public VacancySearchRequestBuilder inArea(Area area){
+        queryParams.add(Pair.with("area", String.valueOf(area.id)));
         return this;
     }
 
@@ -55,41 +68,8 @@ public class VacancySearchRequestBuilder {
 
         URI uri = URI.create(rawUri.toString());
 
-        return new HHRequest<>(uri, VacancySearchRequestBuilder::mapRawResponseIntoVacancies);
-    }
-
-    private static Stream<Vacancy> mapRawResponseIntoVacancies(HttpResponse<InputStream> rawResp) {
-        JsonFactory factory = new JsonFactory();
-
-        JsonParser parser = null;
-        ObjectMapper mapper = null;
-
-        try {
-            parser = factory.createParser(rawResp.body());
-            mapper = new ObjectMapper(factory);
-
-            JsonToken nextToken = null;
-            boolean foundVacanciesList = false;
-
-            while (!foundVacanciesList) {
-                while (nextToken != JsonToken.FIELD_NAME) {
-                    nextToken = parser.nextToken();
-                }
-
-                // vacancies list named "items"
-                if (parser.getCurrentName().equals("items")
-                        && parser.nextToken() == JsonToken.START_ARRAY) {
-                    foundVacanciesList = true;
-                }
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        var objIter = new JsonListIter<Vacancy>(parser, mapper, Vacancy.class);
-        var spliterator = Spliterators.spliteratorUnknownSize(objIter, Spliterator.NONNULL);
-
-        return StreamSupport.stream(spliterator, false);
+        return new HHRequest<>(
+                uri,
+                response -> JsonObjectResponseParser.parseArray("items", response.body(), Vacancy.class));
     }
 }

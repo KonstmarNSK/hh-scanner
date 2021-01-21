@@ -11,8 +11,11 @@ import java.util.concurrent.Executor;
 
 public class Client {
     private final HttpClient httpClient;
+    private final Executor threadPool;
 
     public Client(Executor executor) {
+        threadPool = executor;
+
         httpClient = HttpClient.newBuilder()
                 .executor(executor)
                 .version(HttpClient.Version.HTTP_1_1)
@@ -21,6 +24,9 @@ public class Client {
                 .build();
     }
 
+    public Executor getThreadPool() {
+        return threadPool;
+    }
 
     public CompletableFuture<HttpResponse<InputStream>> makeRequest(URI targetUri){
         HttpRequest request = HttpRequest.newBuilder()

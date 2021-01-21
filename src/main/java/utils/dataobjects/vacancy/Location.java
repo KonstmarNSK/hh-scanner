@@ -1,8 +1,11 @@
 package utils.dataobjects.vacancy;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Location {
     public final String city;
     public final String street;
