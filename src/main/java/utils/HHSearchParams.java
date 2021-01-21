@@ -1,7 +1,6 @@
 package utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import utils.dataobjects.hhsearchparams.area.Area;
 import utils.dataobjects.hhsearchparams.Experience;
 import utils.dataobjects.SearchParamsDictionary;
 import utils.dataobjects.hhsearchparams.area.Country;

@@ -18,22 +18,19 @@ public class Main {
                 .findAny()
                 .orElseThrow();
 
+        var russia = hhSearchParams.getCountries().stream()
+                .filter(country -> country.name.equals("Россия"))
+                .findAny().orElseThrow();
+
         var req = RequestBuilders.findJob()
                 .findTextOccurrences("java")
                 .withExperience(exp3Years)
+                .inArea(russia)
                 .build();
 
         var list = req.doRequest(client).get().collect(Collectors.toList());
 
         System.out.println(list);
-
-        var future = hhSearchParams.getCountries().stream()
-                .filter(country -> country.id == 113)
-                .findAny().get()
-                .fetchChildren(client)
-                .get();
-
-        System.out.println(future.stream().map(Object::toString).collect(Collectors.joining(";")));
 
         threadPool.shutdownNow();
     }

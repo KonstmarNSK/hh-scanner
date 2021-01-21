@@ -8,6 +8,7 @@ import org.javatuples.Pair;
 import utils.Constants;
 import utils.HHRequest;
 import utils.dataobjects.hhsearchparams.Experience;
+import utils.dataobjects.hhsearchparams.area.Area;
 import utils.dataobjects.vacancy.Vacancy;
 import utils.json.JsonListIter;
 import utils.json.JsonObjectResponseParser;
@@ -43,6 +44,11 @@ public class VacancySearchRequestBuilder {
 
     public VacancySearchRequestBuilder withExperience(Experience experience){
         queryParams.add(Pair.with("experience", experience.id));
+        return this;
+    }
+
+    public VacancySearchRequestBuilder inArea(Area area){
+        queryParams.add(Pair.with("area", String.valueOf(area.id)));
         return this;
     }
 
