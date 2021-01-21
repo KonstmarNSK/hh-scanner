@@ -27,6 +27,14 @@ public class Main {
 
         System.out.println(list);
 
+        var future = hhSearchParams.getCountries().stream()
+                .filter(country -> country.id == 113)
+                .findAny().get()
+                .fetchChildren(client)
+                .get();
+
+        System.out.println(future.stream().map(Object::toString).collect(Collectors.joining(";")));
+
         threadPool.shutdownNow();
     }
 }
