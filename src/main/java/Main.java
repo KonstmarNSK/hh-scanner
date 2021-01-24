@@ -1,3 +1,4 @@
+import utils.AreaSearch;
 import utils.Client;
 import utils.HHSearchParams;
 import utils.requestbuilders.RequestBuilders;
@@ -20,7 +21,8 @@ public class Main {
 
         var russia = hhSearchParams.getCountries().stream()
                 .filter(country -> country.name.equals("Россия"))
-                .findAny().orElseThrow();
+                .findAny()
+                .orElseThrow();
 
         var req = RequestBuilders.findJob()
                 .findTextOccurrences("java")
@@ -32,6 +34,8 @@ public class Main {
 
         System.out.println(list);
 
+        var r = AreaSearch.findChildrenByName("Новосибирск", russia, client).get();
+        r = AreaSearch.findChildrenByName("Новосибирск", russia, client).get();
         threadPool.shutdownNow();
     }
 }

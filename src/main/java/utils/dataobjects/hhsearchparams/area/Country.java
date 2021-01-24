@@ -23,10 +23,7 @@ public class Country extends Area{
 
     public CompletableFuture<List<CountryPart>> fetchChildren(Client client) {
         if (countryParts != null) {
-            var result = new CompletableFuture<List<CountryPart>>();
-            result.complete(countryParts);
-
-            return result;
+            return CompletableFuture.supplyAsync(() -> countryParts, client.getThreadPool());
         }
 
         return doFetchChildren(client);
@@ -38,7 +35,7 @@ public class Country extends Area{
                             var result = JsonObjectResponseParser.parseArray("areas",
                                     response.body(),
                                     CountryPart.class)
-                                    .collect(Collectors.toList());
+                                    .collect(Collectors.toUnmodifiableList());
 
                             countryParts = result;
 
@@ -46,4 +43,6 @@ public class Country extends Area{
                         }
                 );
     }
+
+
 }
