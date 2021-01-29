@@ -69,7 +69,16 @@ public class JsonObjectResponseParser {
             throw new RuntimeException(e);
         }
 
-        var objIter = new JsonListIter<T>(parser, mapper, tClass);
+        JsonListIter<T> objIter = JsonListIter.<T>builder()
+                .setSource(rawStream)
+                .setParser(parser)
+                .setMapper(mapper)
+                .setItemType(tClass)
+                .setCloseISOnEndOfArray(true)
+                .setCloseISOnErrors(true)
+                .setCloseISOnIterGCCollected(true)
+                .build();
+
         var spliterator = Spliterators.spliteratorUnknownSize(objIter, Spliterator.NONNULL);
 
         return StreamSupport.stream(spliterator, false);

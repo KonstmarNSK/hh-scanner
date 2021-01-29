@@ -3,10 +3,12 @@ import utils.Client;
 import utils.HHSearchParams;
 import utils.requestbuilders.RequestBuilders;
 
+import java.lang.ref.Cleaner;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
 
         var threadPool = Executors.newFixedThreadPool(10);
@@ -36,6 +38,12 @@ public class Main {
 
         var r = AreaSearch.findChildrenByName("Новосибирск", russia, client).get();
         r = AreaSearch.findChildrenByName("Новосибирск", russia, client).get();
+
         threadPool.shutdownNow();
+
+        for(int i = 0; i< 100; i++){
+            System.gc();
+        }
+
     }
 }
